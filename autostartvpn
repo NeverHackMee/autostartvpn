@@ -1,0 +1,105 @@
+#!/bin/bash
+
+# Script by NeverHackMe - 2022
+ 
+# Colours
+declare -r greenColour="\e[0;32m\033[1m"
+declare -r endColour="\033[0m\e[0m"
+declare -r redColour="\e[0;31m\033[1m"
+declare -r blueColour="\e[0;34m\033[1m"
+declare -r yellowColour="\e[0;33m\033[1m"
+declare -r purpleColour="\e[0;35m\033[1m"
+declare -r turquoiseColour="\e[0;36m\033[1m"
+declare -r grayColour="\e[0;37m\033[1m"
+
+# Global Variables
+declare -r PATH_MACHINES="" # Path to machines ovpn file
+declare -r PATH_STARTING_POINT="" # Path to starting point ovpn file
+declare -r PATH_ENDGAMES="" # Path to endgames ovpn file
+declare -r PATH_FORTRESSES="" # Path to fortresses ovpn file
+declare -r PATH_RELEASE_ARENA="" #Path to release arena ovpn file
+
+function ctrl_c(){
+	echo -e "\n${redColour}[*]${endColour}${blueColour} Exiting...${endColour}"
+	sleep 1
+	tput cnorm
+	exit 1
+}
+
+trap ctrl_c INT
+
+function helpPanel(){
+	
+	echo -e "\nUsage:"
+	echo -e "	autostartvpn [options]\n"
+	echo -e "Options:\n"
+	echo -e "	-M 		Run the Machines VPN"
+	echo -e "	-S 		Run the StartingPoint VPN"
+	echo -e "	-E		Run the EndGames VPN"
+	echo -e "	-F		Run the Fortresses VPN"
+	echo -e "	-R		Run the Release Arena VPN"
+	echo -e "	-stop		Stop all the VPN instances"
+	echo -e "	--help		Run this helpPanel"
+}
+
+function runvpn() {
+
+	tput civis
+	if [ -f $1 ]; then
+		echo -e "\n${redColour}Running the VPN file:${endColour}${blueColour}$1${endColour}"
+		set +m
+        	ifconfig tun0 > /dev/null 2>&1; if [ $? -eq 0 ]; then stopvpn; fi
+        	sudo openvpn $1 > /dev/null 2>&1 &
+        	ifconfig tun0 > /dev/null 2>&1; until [ $? -eq 0 ];do ifconfig tun0 > /dev/null 2>&1; done
+        	ip=$(ifconfig tun0 | grep -E "destination" | awk 'NF{print $NF}')
+		echo -e "\n${blueColour}VPN IP --> ${endColour}${greenColour}$ip${endColour}"
+		set -m
+	else 
+		echo -e "${redColour}File $1 not found${endColour}"
+		exit 1
+	fi
+	tput cnorm	
+}
+
+function stopvpn(){
+        
+	echo -e "${redColour}\n[*] Killing existing processes...${endColour}"
+	set +m
+        for PID in $(ps -aux | grep openvpn | grep root | awk '{print $2}');do sudo kill -9 $PID > /dev/null 2>&1; done
+	set -m
+}
+
+case "$1" in
+  "-M")
+	echo -e "${turquoiseColour}\n[+]${endColour}${greenColour}Connecting to the Machines${endColour}"
+    	runvpn $PATH_MACHINES
+	;;
+  "-S")
+	echo -e "${turquoiseColour}\n[+]${endColour}${greenColour}Connecting to the Starting Point${endColour}"
+    	runvpn $PATH_STARTING_POINT
+    	;;
+  "-E")
+    	echo -e "${turquoiseColour}\n[+]${endColour}${greenColour}Connecting to the Endgames${endColour}"
+	runvpn $PATH_ENDGAMES
+    	;;
+  "-F")
+    	echo -e "${turquoiseColour}\n[+]${endColour}${greenColour}Connecting to the Fortresess${endColour}"
+	runvpn $PATH_FORTRESESS
+    	;;
+  "-R")
+	echo -e "${turquoiseColour}\n[+]${endColour}${greenColour}Connecting to the Release Arena${endColour}"
+	runvpn $PATH_RELEASE_ARENA
+	;;
+  "-stop")
+    	echo -e "\n${purpleColour}[-] Desactivando VPN...${endColour}"
+	stopvpn
+	;;
+  "--help")
+	helpPanel
+	exit 1
+	;;
+  *)
+    	helpPanel
+    	exit 1
+    	;;
+esac
