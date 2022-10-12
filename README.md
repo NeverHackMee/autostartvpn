@@ -8,13 +8,14 @@ This script must be added to your /usr/bin/ path to run it as a normal Linux com
 
 The script receives only one parameter through which to specify the type of VPN to start:
 
--M Run the Machines VPN
--S Run the StartingPoint VPN
--E Run the EndGames VPN
--F Run the Fortresses VPN
--R Run the Release Arena VPN
--stop Stop all the VPN instances
-–help Run the helpPanel”
+* -M Run the Machines VPN
+* -S Run the StartingPoint VPN
+* -E Run the EndGames VPN
+* -F Run the Fortresses VPN
+* -R Run the Release Arena VPN
+* -stop Stop all the VPN instances
+* –help Run the helpPanel”
+
 Remember, before running it, make sure you have entered the path corresponding to each Hack The Box ovpn file in the global variables section.
 
 The runvpn function allows you to automatically start your vpn instance, and shows you the IP associated to your tun0 interface corresponding to your VPN.
