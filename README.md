@@ -2,7 +2,7 @@
 
 ![AutoStart-OpenVPN-1](https://user-images.githubusercontent.com/96632840/195457136-182c9378-942c-406d-b1c1-2429c740ebe3.jpeg)
 
-autostartvpn command that will allow you to start and stop the connection to Hack The Box through Openvpn automatically.
+autostartvpn is a command that will allow you to start and stop the connection to Hack The Box through Openvpn automatically.
 
 This script must be added to your /usr/bin/ path to run it as a normal Linux command.
 
