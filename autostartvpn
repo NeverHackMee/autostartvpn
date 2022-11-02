@@ -45,20 +45,21 @@ function helpPanel(){
 function runvpn() {
 
 	tput civis
-	if [ -f $1 ]; then
-		echo -e "\n${redColour}Running the VPN file:${endColour}${blueColour}$1${endColour}"
+	if [ -f "$1" ]; then
+		echo -e "\n${purpleColour}Running the VPN file :${endColour}${blueColour} $1${endColour}"
 		set +m
         	ifconfig tun0 > /dev/null 2>&1; if [ $? -eq 0 ]; then stopvpn; fi
         	sudo openvpn $1 > /dev/null 2>&1 &
         	ifconfig tun0 > /dev/null 2>&1; until [ $? -eq 0 ];do ifconfig tun0 > /dev/null 2>&1; done
         	ip=$(ifconfig tun0 | grep -E "destination" | awk 'NF{print $NF}')
 		echo -e "\n${blueColour}VPN IP --> ${endColour}${greenColour}$ip${endColour}"
+        	kitty @ set-tab-title "VPN: $ip"
 		set -m
 	else 
-		echo -e "${redColour}File $1 not found${endColour}"
+		echo -e "${redColour}\nVPN File not found${endColour}"
 		exit 1
 	fi
-	tput cnorm	
+	tput cnorm
 }
 
 function stopvpn(){
