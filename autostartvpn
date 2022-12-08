@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script by NeverHackMe - 2022
+# Script by Nevuer - 2022
  
 # Colours
 declare -r greenColour="\e[0;32m\033[1m"
