@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script by Nevuer - 2022
+#By Nevuer
  
 # Colours
 declare -r greenColour="\e[0;32m\033[1m"
@@ -92,7 +92,7 @@ case "$1" in
 	runvpn $PATH_RELEASE_ARENA
 	;;
   "-stop")
-    	echo -e "\n${purpleColour}[-] Desactivando VPN...${endColour}"
+    	echo -e "\n${purpleColour}[-] Disabling VPN...${endColour}"
 	stopvpn
 	;;
   "--help")
