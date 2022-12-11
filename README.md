@@ -1,4 +1,4 @@
-# autostartvpn - https://www.neverhackme.com/autostart-openvpn/
+# autostartvpn - https://www.nevuer.com/autostart-openvpn/
 
 ![AutoStart-OpenVPN-1](https://user-images.githubusercontent.com/96632840/195457136-182c9378-942c-406d-b1c1-2429c740ebe3.jpeg)
 
